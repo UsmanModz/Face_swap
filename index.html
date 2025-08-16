@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FaceSwap by Usman Fun Tools - Swap faces in photos with our advanced AI tool. Upload source and target images for fun results. Join our WhatsApp channels & groups for updates.">
+    <meta name="keywords" content="FaceSwap, Usman Fun Tools, face swap tool, AI face swap, photo editing, Usman Modz, WhatsApp channel, Telegram channel, fun tools, image swap, face swapping">
+    <meta name="author" content="Usman Modz">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <meta property="og:title" content="FaceSwap - Usman Fun Tools">
+    <meta property="og:description" content="Swap faces in photos with FaceSwap by Usman Modz. Upload two images and see the magic! Join our WhatsApp and Telegram channels for more.">
+    <meta property="og:url" content="https://shadowfuntools.site/tools/faceswap.php">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://shadowfuntools.site/favicon.ico">
+    <meta property="og:site_name" content="Usman Fun Tools">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FaceSwap - Usman Fun Tools">
+    <meta name="twitter:description" content="Use FaceSwap by Usman Modz to swap faces in photos with AI. Join our WhatsApp and Telegram channels for updates.">
+    <meta name="twitter:image" content="https://shadowfuntools.site/favicon.ico">
+    <title>FaceSwap - Usman Fun Tools</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="canonical" href="https://shadowfuntools.site/tools/faceswap.php">
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="animate.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: #e5e7eb;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.02;
+        }
+        .container {
+            background: rgba(31, 41, 55, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            color: #e5e7eb;
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 8px;
+            background: #374151;
+            color: #e5e7eb;
+            border: 1px solid #4b5563;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .form-control:focus {
+            transform: scale(1.02);
+            border-color: #22c55e;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+        .btn-primary {
+            background: #22c55e;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: scale(1.05);
+        }
+        .preview-img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: 2px solid #22c55e;
+        }
+        .full-view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .full-view.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .full-view img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+        .full-view button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #22c55e;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #fff;
+        }
+        .alert {
+            border-radius: 8px;
+            animation: fadeIn 0.5s ease-in;
+            background: #1f2937;
+            border: 1px solid #22c55e;
+            color: #e5e7eb;
+        }
+        .alert-danger {
+            border-color: #ef4444;
+        }
+        .alert-success {
+            border-color: #22c55e;
+        }
+        .footer {
+            text-align: center;
+            color: #9ca3af;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        .social-button {
+            background: #0ea5e9;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            margin: 0 0.5rem;
+            display: inline-block;
+        }
+        .social-button:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 576px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.8rem; }
+            .preview-img { max-width: 100%; }
+            .social-button { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "FaceSwap - Usman Fun Tools",
+        "url": "https://shadowfuntools.site/tools/faceswap.php",
+        "description": "FaceSwap by Usman Modz uses AI to swap faces in photos. Upload source and target images for fun, realistic results. Join our WhatsApp and Telegram channels.",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Usman Modz",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://shadowfuntools.site/favicon.ico"
+            }
+        },
+        "keywords": ["FaceSwap", "Usman Fun Tools", "face swap tool", "AI face swap", "photo editing", "Usman Modz", "WhatsApp channel", "WhatsApp group", "fun tools", "image swap"]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+    <div class="container animate__animated animate__fadeIn">
+        <header class="text-center mb-4">
+            <h1>FaceSwap by Usman Modz</h1>
+            <p class="text-gray-300">Swap faces in photos with our advanced AI tool</p>
+        </header>
+        <section>
+            <form method="POST" enctype="multipart/form-data" class="mb-4">
+                <div class="mb-3 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <label for="source_image" class="form-label">Upload Source Image</label>
+                    <input type="file" class="form-control" id="source_image" name="source_image" accept="image/jpeg,image/png,image/gif" required>
+                </div>
+                <div class="mb-3 animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+                    <label for="target_image" class="form-label">Upload Target Image</label>
+                    <input type="file" class="form-control" id="target_image" name="target_image" accept="image/jpeg,image/png,image/gif" required>
+                </div>
+                <button type="submit" name="convert" class="btn btn-primary animate__animated animate__pulse" style="animation-delay: 0.6s;">Swap Faces</button>
+            </form>
+
+            
+                    </section>
+        <footer class="footer">
+            <p>Developed by Usman Modz</p>
+            <p>Thanks for joining Usman Modz - Sharing things that people want. The future of the world!</p>
+            <p>
+                <a href="https://whatsapp.com/channel/0029VamDk0x4o7qTkpcap72M" target="_blank" class="social-button">WA Channel</a>
+                <a href="https://chat.whatsapp.com/CN7oPcUB0z38TloHh3gp8t?mode=ac_t" target="_blank" class="social-button">WA Group</a>
+            </p>
+        </footer>
+    </div>
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="animate.min.js"></script>
+    <script>
+        // Subtle matrix background animation (2% opacity)
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        const chars = '01SHADOW';
+        const fontSize = 12;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#22c55e';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 50);
+        window.addEventListener('resize', () => {
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+        });
+
+        // Full view image toggle
+        document.querySelectorAll('.preview-img').forEach(img => {
+            img.addEventListener('click', () => {
+                document.getElementById('fullView').classList.add('active');
+            });
+        });
+
+        function closeFullView() {
+            document.getElementById('fullView').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
